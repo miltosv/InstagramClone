@@ -1,0 +1,25 @@
+- @photo.comments.each do |comment|
+    .well.col-sm-12
+        = image_tag comment.user.avatar.url(:thumb), class: ['avatar']
+        %strong= comment.user.email
+        %br/
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        = comment.body
+    .div.b
+        %p= time_ago_in_words(comment.created_at)
+.row
+- if current_user.id == @photo.user.id
+    = link_to 'Delete Photo', user_photo_path(current_user, @photo), method: "delete", data: {confirm: 'Are you sure?'}, class: ['btn', 'btn-danger']
+.row
+%h1 Add a Comment
+
+= form_for Comment.new, :url => user_photo_comments_path do |form|
+    = form.hidden_field :user_id, value: current_user.id
+    = form.text_field :body
+    = form.submit 'Post Comment'
+.row
+= link_to 'Close', '', {:id => 'closeLink'}

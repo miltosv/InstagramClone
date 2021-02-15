@@ -1,0 +1,9 @@
+%p#notice= notice
+%p
+  %strong User:
+  = @follow.user_id
+%p
+  %strong Following:
+  = @follow.followee_id
+= link_to 'Back', follows_path
+

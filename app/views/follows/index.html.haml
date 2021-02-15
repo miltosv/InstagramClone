@@ -1,0 +1,15 @@
+%p#notice= notice
+%h1 Listing Follows
+%table
+  %thead
+    %tr
+      %th User
+      %th Following
+      %th{:colspan => "3"}
+  %tbody
+    - @follows.each do |follow|
+      %tr
+        %td= follow.user_id
+        %td= follow.followee_id
+%br/
+= link_to 'Back', users_path

@@ -1,0 +1,51 @@
+%script{:src => "http://code.jquery.com/jquery-3.3.1.min.js"}
+
+.row.top_row
+  .col-sm-6.user_att
+    %h2= @user.email
+    - if @user.avatar_file_name
+      = image_tag @user.avatar.url(:thumb)
+  .col-sm-6
+    = link_to 'Logout', log_out_path, class: ['btn', 'btn-danger', 'logout_btn']
+  .row
+    = link_to 'Add Photo', new_user_photo_path(@user), class: ['btn', 'btn-success', 'add_photo_btn']
+  .col-sm-6
+  .row
+    = link_to 'Follow Users', '/users', class:['btn', 'btn-success', 'Follow_btn']
+%br/
+%br/
+%br/
+%br/
+%br/
+%br/
+%br/
+%br/
+%br/
+%br/
+.row
+  %h1 My home page
+  -#%h2#caption= "My photos"
+  - list = @user.photos.order(created_at: :desc)
+  - if list.any?
+    %h3#caption= "#{list.first.title}"
+    %img#slide{ src: list.first.image.url(:medium), alt:list.first.title,href: user_photo_comments_path(@user, list.first)}
+    %div#slides
+      -list.each do |photo|
+        %img{ src: photo.image.url(:medium) , alt: photo.title,href:user_photo_comments_path(@user, photo)}
+
+        %br/
+  
+  
+  %h1 People I follow
+  - @user.followees.each  do |followees|
+    %h2=  "#{followees.email}" 
+    = image_tag followees.avatar.url(:thumb), class: ['avatar']
+    -list = followees.photos.order(created_at: :desc)
+    - if list.any?
+      %h3#caption= "#{list.first.title}"
+      %img#slide{ src: list.first.image.url(:medium), alt: list.first.title,href:user_photo_comments_path(followees, list.first) }
+      %div#slides
+        -list.each do |photo|
+          %img{ src: photo.image.url(:medium) , alt: photo.title,href: user_photo_comments_path(followees, photo)}
+
+          %br/

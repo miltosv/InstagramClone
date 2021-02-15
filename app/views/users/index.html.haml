@@ -1,0 +1,29 @@
+%h1 All Users
+%table#users
+    %thread
+        %tr
+            %th User e-mail
+            %br
+            %th Follow
+    %tbody
+        - @users.each do |user|
+            %tr
+            %td= user.email
+            - if current_user.id != user.id
+                - if !current_user.following?(user)
+                    %td= link_to "Follow", follows_path(:followee_id => user), :method => :post , class:['btn', 'btn-success', 'Follow_btn']
+                -else
+                    %td= 'You follow this user'
+                -#    %td= link_to "Unfollow", follows_path(:user_id => user), :method => :destroy, class:['btn', 'btn-danger', 'Unfollow_btn']
+-#%table#follows
+    %thread
+        %tr
+            %th User e-mail
+            %br
+            %th %Unfollow
+    %tbody
+        -@user.follows.each do |followee|
+            %tr
+            %td = followee.email
+            %td = link_to "Unfollow", followee, :method => :delete , class:['btn', 'btn-danger', 'Unfollow_btn']
+%td= link_to 'Back to my profile', ('/users/'+(current_user.id).to_s), class:['btn', 'btn-primary']
